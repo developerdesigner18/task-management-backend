@@ -1,61 +1,219 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task Management Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A robust Laravel-based REST API for managing tasks with features like task creation, updating, completion, reordering, and filtering. Built with modern PHP practices and includes comprehensive API endpoints for task management.
 
-## About Laravel
+## 🚀 Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend Framework**: Laravel 12.x
+- **PHP Version**: 8.2+
+- **Database**: SQLite (development)
+- **Authentication**: Laravel Sanctum
+- **Frontend Build**: Vite + Tailwind CSS 4.0
+- **Testing**: PHPUnit
+- **Code Quality**: Laravel Pint (PHP CS Fixer)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- ✅ Create, read, update, and delete tasks
+- 🔄 Task reordering functionality
+- ✅ Mark tasks as complete/incomplete
+- 🔍 Search tasks by title
+- 📊 Filter tasks by status (completed/pending)
+- 🎨 Modern API with consistent response format
+- 📝 Request validation
+- 🧪 Comprehensive testing setup
 
-## Learning Laravel
+## 🛠️ Local Development Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Prerequisites
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- PHP 8.2 or higher
+- Composer
+- Git
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Installation
 
-## Laravel Sponsors
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd task-management-backend
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Database setup**
+   ```bash
+   php artisan migrate
+   ```
 
-## Contributing
+5. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The API will be available at `http://localhost:8000`
 
-## Code of Conduct
+## 📚 API Endpoints
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Tasks
 
-## Security Vulnerabilities
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/tasks` | Get all tasks (with optional filtering) |
+| POST | `/api/tasks` | Create a new task |
+| GET | `/api/tasks/{id}` | Get a specific task |
+| PUT | `/api/tasks/{id}` | Update a task |
+| DELETE | `/api/tasks/{id}` | Delete a task |
+| PATCH | `/api/tasks/reorder` | Reorder tasks |
+| PATCH | `/api/tasks/{id}/complete` | Mark task as complete/incomplete |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Query Parameters
 
-## License
+**GET /api/tasks**
+- `status`: Filter by status (`completed` or `pending`)
+- `search`: Search tasks by title
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Request/Response Examples
+
+**Create Task**
+```bash
+POST /api/tasks
+Content-Type: application/json
+
+{
+    "title": "Learn Laravel",
+    "description": "Complete Laravel tutorial"
+}
+```
+
+**Response**
+```json
+{
+    "success": true,
+    "message": "Task created",
+    "data": {
+        "id": 1,
+        "title": "Learn Laravel",
+        "description": "Complete Laravel tutorial",
+        "completed": false,
+        "order": 1,
+        "created_at": "2024-01-01T00:00:00.000000Z",
+        "updated_at": "2024-01-01T00:00:00.000000Z"
+    }
+}
+```
+
+**Reorder Tasks**
+```bash
+PATCH /api/tasks/reorder
+Content-Type: application/json
+
+{
+    "tasks": [
+        {"id": 1, "order": 2},
+        {"id": 2, "order": 1}
+    ]
+}
+```
+
+## 🗄️ Database Schema
+
+### Tasks Table
+- `id` (Primary Key)
+- `title` (String, Indexed)
+- `description` (Long Text, Nullable)
+- `completed` (Boolean, Default: false)
+- `order` (Integer)
+- `created_at` (Timestamp)
+- `updated_at` (Timestamp)
+
+
+## 📁 Project Structure
+
+```
+app/
+├── Http/
+│   ├── Controllers/Api/
+│   │   └── TaskController.php
+│   ├── Requests/Api/
+│   │   ├── StoreTaskRequest.php
+│   │   ├── UpdateTaskRequest.php
+│   │   └── ReorderTaskRequest.php
+│   └── Traits/
+│       └── ResponseTrait.php
+├── Models/
+│   ├── Task.php
+│   └── User.php
+database/
+├── migrations/
+│   └── 2025_09_19_045025_create_tasks_table.php
+└── database.sqlite
+routes/
+└── api.php
+```
+
+## 🔧 Development Commands
+
+```bash
+# Clear application cache
+php artisan cache:clear
+
+# Clear configuration cache
+php artisan config:clear
+
+# Run database migrations
+php artisan migrate
+
+# Run database rollback
+php artisan migrate:rollback
+```
+
+## 📝 API Response Format
+
+All API responses follow a consistent format:
+
+**Success Response**
+```json
+{
+    "success": true,
+    "message": "Operation successful",
+    "data": { ... }
+}
+```
+
+**Error Response**
+```json
+{
+    "success": false,
+    "message": "Error message",
+    "data": null
+}
+```
+
+## 🚀 Deployment
+
+1. Set up your production environment variables
+2. Run `composer install --optimize-autoloader --no-dev`
+3. Run `php artisan migrate --force`
+4. Configure your web server to point to the `public` directory
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and ensure they pass
+5. Submit a pull request
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
